@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BootcampWeek1
 {
@@ -11,30 +7,38 @@ namespace BootcampWeek1
     {
         static void Main(string[] args)
         {
+            // Almanya'nın zaman dilimini ayarlama
+            TimeZoneInfo germanyTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
             CultureInfo culture = new CultureInfo("de-DE");
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             Console.Write("How many employees are there?: ");
-            int employeesCount= int.Parse(Console.ReadLine());
+            int employeesCount = int.Parse(Console.ReadLine());
+
             for (int i = 0; i < employeesCount; i++)
             {
-                try
-                {
-                    Console.WriteLine($"Enter the entry time to the workplace the {i + 1}. emloyee (HH:mm)");
+                try { 
+                
+                    Console.WriteLine($"Enter the entry time to the workplace for the {i + 1}. employee (HH:mm)");
                     string entryTimeStr = Console.ReadLine();
-                    TimeSpan entryTime = TimeSpan.ParseExact(entryTimeStr, "hh\\:mm", null);
+                    DateTime entryTime = DateTime.ParseExact(entryTimeStr, "HH:mm", CultureInfo.InvariantCulture);
 
-                    Console.WriteLine($"Enter the exit time to the workplace the {i + 1}. emloyee (HH:mm)");
+                    Console.WriteLine($"Enter the exit time from the workplace for the {i + 1}. employee (HH:mm)");
                     string exitTimeStr = Console.ReadLine();
-                    TimeSpan exitTime = TimeSpan.ParseExact(exitTimeStr, "hh\\:mm", null);
+                    DateTime exitTime = DateTime.ParseExact(exitTimeStr, "HH:mm", CultureInfo.InvariantCulture);
 
                     Console.Write($"How many hours of break?: ");
                     string breakTimeStr = Console.ReadLine();
-                    TimeSpan breakTime = TimeSpan.ParseExact(breakTimeStr, "hh\\:mm", null);
+                    TimeSpan breakTime = TimeSpan.ParseExact(breakTimeStr, "hh\\:mm", CultureInfo.InvariantCulture);
+
+                    // Saat dilimi çevrimi için kullanıcıdan girilen saatleri Almanya saatine çevirme
+                    entryTime = TimeZoneInfo.ConvertTime(entryTime, germanyTimeZone);
+                    exitTime = TimeZoneInfo.ConvertTime(exitTime, germanyTimeZone);
 
                     TimeSpan workingHours = exitTime - entryTime - breakTime;
                     TimeSpan overtimeHours = workingHours - TimeSpan.FromHours(8);
+
                     if (workingHours.TotalHours > 8)
                     {
                         Console.WriteLine($"{i + 1}. employee stayed for overtime");
@@ -45,15 +49,15 @@ namespace BootcampWeek1
                     {
                         Console.WriteLine("You didn't work overtime");
                     }
+
                 }
                 catch (FormatException ex)
                 {
-                    Console.WriteLine("You entered the value in an incorrect time format. You should enter it in the hh:mm");
+                    Console.WriteLine("You entered the value in an incorrect time format. You should enter it in the HH:mm format.");
                 }
-                
+
             }
             Console.ReadKey();
-
         }
     }
 }
