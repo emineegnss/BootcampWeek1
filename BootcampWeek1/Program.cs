@@ -32,7 +32,6 @@ namespace BootcampWeek1
                     string breakTimeStr = Console.ReadLine();
                     TimeSpan breakTime = TimeSpan.ParseExact(breakTimeStr, "hh\\:mm", CultureInfo.InvariantCulture);
 
-                    // Saat dilimi çevrimi için kullanıcıdan girilen saatleri Almanya saatine çevirme
                     entryTime = TimeZoneInfo.ConvertTime(entryTime, germanyTimeZone);
                     exitTime = TimeZoneInfo.ConvertTime(exitTime, germanyTimeZone);
 
