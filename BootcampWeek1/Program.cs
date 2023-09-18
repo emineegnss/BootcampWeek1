@@ -18,8 +18,9 @@ namespace BootcampWeek1
 
             for (int i = 0; i < employeesCount; i++)
             {
-                try { 
-                
+                try {
+                    Console.WriteLine("What is her name? ");
+                    string name = Console.ReadLine();
                     Console.WriteLine($"Enter the entry time to the workplace for the {i + 1}. employee (HH:mm)");
                     string entryTimeStr = Console.ReadLine();
                     DateTime entryTime = DateTime.ParseExact(entryTimeStr, "HH:mm", CultureInfo.InvariantCulture);
@@ -42,7 +43,7 @@ namespace BootcampWeek1
                     {
                         Console.WriteLine($"{i + 1}. employee stayed for overtime");
                         double overtimePay = overtimeHours.TotalHours * 50;
-                        Console.WriteLine($"Overtime pay that should be paid to the {i + 1}. employee: {overtimePay}");
+                        Console.WriteLine($"Overtime pay that should be paid to the {name}: {overtimePay}");
                     }
                     else
                     {
